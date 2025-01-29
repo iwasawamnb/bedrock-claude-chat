@@ -3,18 +3,6 @@ import ButtonIcon from './ButtonIcon';
 import { BaseProps } from '../@types/common';
 import { PiDownload } from 'react-icons/pi';
 
-interface FileSystemWritableFileStream extends WritableStream {
-  write(data: any): Promise<void>;
-  seek(position: number): Promise<void>;
-  truncate(size: number): Promise<void>;
-}
-
-interface FileSystemFileHandle {
-  kind: 'file';
-  name: string;
-  createWritable(): Promise<FileSystemWritableFileStream>;
-}
-
 declare global {
   interface Window {
     showSaveFilePicker?: (options?: {
