@@ -3,16 +3,14 @@ import ButtonIcon from './ButtonIcon';
 import { BaseProps } from '../@types/common';
 import { PiDownload } from 'react-icons/pi';
 
-declare global {
-  interface Window {
-    showSaveFilePicker?: (options?: {
-      suggestedName?: string;
-      types?: Array<{
-        description: string;
-        accept: Record<string, string[]>;
-      }>;
-    }) => Promise<FileSystemFileHandle>;
-  }
+interface WindowWithFileSaveAPI {
+  showSaveFilePicker?: (options?: {
+    suggestedName?: string;
+    types?: Array<{
+      description: string;
+      accept: Record<string, string[]>;
+    }>;
+  }) => Promise<FileSystemFileHandle>;
 }
 
 type Props = BaseProps & {
@@ -42,7 +40,7 @@ const ButtonDownload: React.FC<Props> = (props) => {
 
     try {
       // Modern browsers - Using File System Access API
-      const savePicker = window.showSaveFilePicker;
+      const savePicker = (window as Window & WindowWithFileSaveAPI).showSaveFilePicker;
       if (savePicker) {
         try {
           const handle = await savePicker({
